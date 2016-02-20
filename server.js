@@ -1,32 +1,21 @@
+/* Application init */
 var express = require('express');
-
+var morgan = require('morgan');
 var app = express();
 
-var bodyParser = require('body-parser');
-
+/* MongoDB started */
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/cats');
 
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+/* Config files */
+require('./config/app')(app)
 
-app.use(function(req, res, next){
-  res.header('Access-Control-Allow-Origin','*');
-  res.header('Access-Control-Allow-Method','GET,PUT,DELETE,POST');
-  res.header('Access-Control-Allow-Headers','Content-Type');
-  next();
+/* Server start */
+var server = app.listen(3000, function(){
+  console.log('Server is started on port: 3000');
 });
 
 
-app.get('/', function(req, res){
-  res.send('Hello World!');
-});
-
-var server = app.listen(3001, function(){
-  console.log('server start 3000');
-});
-
-require('./routes/cat')(app)
+/* Routes definitions */
+require('./app/Http/routes')(app, express)
