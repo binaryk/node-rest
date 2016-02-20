@@ -1,0 +1,20 @@
+<div class="panel panel-primary">
+  <div class="panel-heading"
+       style="font-size:large">{{::vm.title}}
+  </div>
+  <a class="btn btn-sm" ui-sref="cats_add">Add</a>
+  <div class="panel-body">
+    <table class="table">
+      <thead>
+      <tr>
+        <td>Name</td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="cat in vm.cats">
+       <td>{{ cat.name }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
