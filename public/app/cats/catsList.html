@@ -2,17 +2,26 @@
   <div class="panel-heading"
        style="font-size:large">{{::vm.title}}
   </div>
-  <a class="btn btn-sm" ui-sref="cats_add">Add</a>
+
+  <a class="btn btn-default pull-right" ui-sref="cats_add">Add</a>
   <div class="panel-body">
     <table class="table">
       <thead>
       <tr>
-        <td>Name</td>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Type</th>
+        <th>Actions</th>
       </tr>
       </thead>
       <tbody>
       <tr ng-repeat="cat in vm.cats">
        <td>{{ cat.name }}</td>
+       <td>{{ cat.age }}</td>
+       <td>{{ cat.type }}</td>
+        <td>
+          <a class="btn btn-sm" ui-sref="cat_edit({cat : cat._id})">Edit</a>
+        </td>
       </tr>
       </tbody>
     </table>

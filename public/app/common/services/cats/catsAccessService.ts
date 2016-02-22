@@ -25,6 +25,21 @@ module app.common {
             return promise;
         }
 
+        put = (form:Object, cat_id?) => {
+            var promise = this.$http.post('http://localhost:3000/cat/'+cat_id, form).then(function(data){
+                return data;
+            });
+            return promise;
+        }
+
+        find = (cat_id) => {
+            var promise = this.$http.get('http://localhost:3000/cat/' + cat_id).then(function(data){
+                console.log(data);
+                return data;
+            });
+            return promise;
+        }
+
     }
 
     angular.module("common.services")

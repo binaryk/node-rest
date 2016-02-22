@@ -7,12 +7,15 @@ var app;
     var productList;
     (function (productList) {
         var CatsController = (function () {
-            function CatsController(catsAccessService, $location, $state) {
+            function CatsController(catsAccessService, $location, $state, action, $stateParams) {
                 var _this = this;
                 this.catsAccessService = catsAccessService;
                 this.$location = $location;
                 this.$state = $state;
+                this.action = action;
+                this.$stateParams = $stateParams;
                 this.save = function () {
+                    console.log(_this.action);
                     var _that = _this;
                     var validation = new App.Forms.Validate();
                     validation.addRule("name", {
@@ -27,12 +30,21 @@ var app;
                         rule: "require",
                         message: "Camp obligatoriu"
                     });
+                    validation.validate();
                     if (validation.validate()) {
-                        _this.catsAccessService.store(_this.form).then(function (data) {
-                            _that.form = new Object;
-                            _that.$state.go("cats");
-                            console.log(data);
-                        });
+                        if (_that.action === 'edit') {
+                            _this.catsAccessService.put(_this.form, _that.$stateParams.cat).then(function (data) {
+                                _that.$state.go("cats");
+                                console.log(data);
+                            });
+                        }
+                        else {
+                            _this.catsAccessService.store(_this.form).then(function (data) {
+                                _that.form = new Object;
+                                _that.$state.go("cats");
+                                console.log(data);
+                            });
+                        }
                     }
                 };
                 this.cats = [];
@@ -42,8 +54,13 @@ var app;
                 catsAccessService.getCats().then(function (data) {
                     _that.cats = data.data.data;
                 });
+                if (action === 'edit') {
+                    catsAccessService.find($stateParams.cat).then(function (data) {
+                        _that.form = data.data.data;
+                    });
+                }
             }
-            CatsController.$inject = ['catsAccessService', '$location', '$state'];
+            CatsController.$inject = ['catsAccessService', '$location', '$state', 'action', '$stateParams'];
             return CatsController;
         })();
         angular.module("productManagement").controller("CatsCtrl", CatsController);

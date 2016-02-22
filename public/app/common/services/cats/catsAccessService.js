@@ -22,6 +22,19 @@ var app;
                     });
                     return promise;
                 };
+                this.put = function (form, cat_id) {
+                    var promise = _this.$http.post('http://localhost:3000/cat/' + cat_id, form).then(function (data) {
+                        return data;
+                    });
+                    return promise;
+                };
+                this.find = function (cat_id) {
+                    var promise = _this.$http.get('http://localhost:3000/cat/' + cat_id).then(function (data) {
+                        console.log(data);
+                        return data;
+                    });
+                    return promise;
+                };
             }
             catsAccessService.$inject = ["$http", '$resource'];
             return catsAccessService;
